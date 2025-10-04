@@ -43,7 +43,7 @@ const getSingleBlog = catchAsync(async (req: Request, res: Response, next: NextF
     sendResponse(res, {
         statusCode: 200,
         success: true,
-        message: "Blogs retrieved successfully!",
+        message: "Blog retrieved successfully!",
         data: result
     });
 });
@@ -65,7 +65,7 @@ const updateBlog = catchAsync(async (req: Request, res: Response, next: NextFunc
     sendResponse(res, {
         statusCode: 200,
         success: true,
-        message: "Blogs updated successfully!",
+        message: "Blog updated successfully!",
         data: result
     });
 });
@@ -77,7 +77,7 @@ const deleteBlog = catchAsync(async (req: Request, res: Response, next: NextFunc
     sendResponse(res, {
         statusCode: 200,
         success: true,
-        message: "Blogs deleted successfully!",
+        message: "Blog deleted successfully!",
         data: result
     });
 });
