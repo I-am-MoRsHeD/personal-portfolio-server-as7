@@ -2,6 +2,8 @@ import express, { type Request, type Response } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { envVars } from './config/env';
+import { router } from './routes';
+import { globalErrorHandler } from './middleware/globalErrorHandler';
 
 
 const app = express();
@@ -15,9 +17,12 @@ app.use(cors({
     credentials: true
 }));
 
+app.use('/api', router);
+
 app.get('/', (req: Request, res: Response) => {
     res.send('Welcome to My Personal Portfolio!!');
 });
 
+app.use(globalErrorHandler);
 
 export default app;
