@@ -17,7 +17,7 @@ const storage = new CloudinaryStorage({
 
             const extension = file.originalname.split(".").pop();
 
-            const uniqueFileName = Math.random().toString(36).substring(2) + "-" + Date.now() + "-" + fileName + "." + extension;
+            const uniqueFileName = Math.random().toString(36).substring(2) + "-" + Date.now() + "-" + fileName;
 
             return uniqueFileName;
         }
