@@ -2,6 +2,7 @@ import { Server } from "http";
 import app from "./app";
 import { envVars } from "./config/env";
 import { prisma } from "./config/db";
+import { seedOwner } from "./utils/seedOwnder";
 
 
 let server: Server | null = null;
@@ -29,6 +30,7 @@ const startServer = async () => {
 
 (async () => {
     await startServer();
+    await seedOwner();
 })()
 
 process.on('unhandledRejection', (err) => {
