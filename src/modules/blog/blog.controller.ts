@@ -24,7 +24,6 @@ const createBlog = catchAsync(async (req: Request, res: Response, next: NextFunc
     });
 });
 
-
 const getAllBlogs = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
     const result = await BlogServices.getAllBlogs();
@@ -49,9 +48,45 @@ const getSingleBlog = catchAsync(async (req: Request, res: Response, next: NextF
     });
 });
 
+const updateBlog = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { blogId } = req.params;
+    let body = {};
+
+    if (req.file?.path) {
+        body = {
+            ...req.body,
+            thumbnail: req.file?.path
+        };
+    } else {
+        body = req.body
+    }
+    const result = await BlogServices.updateBlog(Number(blogId), body);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Blogs updated successfully!",
+        data: result
+    });
+});
+
+const deleteBlog = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { blogId } = req.params;
+    const result = await BlogServices.deleteBlog(Number(blogId));
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Blogs deleted successfully!",
+        data: result
+    });
+});
+
 
 export const BlogController = {
     createBlog,
     getAllBlogs,
-    getSingleBlog
+    getSingleBlog,
+    updateBlog,
+    deleteBlog
 };

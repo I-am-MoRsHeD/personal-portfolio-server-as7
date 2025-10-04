@@ -8,7 +8,7 @@ import { prisma } from "../config/db";
 export const checkAuth = () => async (req: Request, res: Response, next: NextFunction) => {
     try {
         const role = "OWNER";
-        const accessToken = req.headers.authorization || req.cookies.accessToken;
+        const accessToken = req.cookies.accessToken;
 
         if (!accessToken) {
             throw new AppError(403, "No token received");

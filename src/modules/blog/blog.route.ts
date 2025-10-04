@@ -3,7 +3,7 @@ import { checkAuth } from "../../utils/checkAuth";
 import { multerUpload } from "../../config/multer.config";
 import { BlogController } from "./blog.controller";
 import { validateSchema } from "../../middleware/validateSchema";
-import { createBlogZodSchema } from "./blog.validation";
+import { createBlogZodSchema, updateBlogZodSchema } from "./blog.validation";
 
 
 const router = Router();
@@ -17,5 +17,12 @@ router.post('/create',
     validateSchema(createBlogZodSchema),
     BlogController.createBlog);
 
+router.patch('/:blogId',
+    checkAuth(),
+    multerUpload.single('file'),
+    validateSchema(updateBlogZodSchema),
+    BlogController.updateBlog);
+
+router.delete('/:blogId', checkAuth(), BlogController.deleteBlog);
 
 export const blogRouter = router;
