@@ -5,8 +5,9 @@ import { envVars } from "../config/env";
 import { JwtPayload } from "jsonwebtoken";
 import { prisma } from "../config/db";
 
-export const checkAuth = (role: string) => async (req: Request, res: Response, next: NextFunction) => {
+export const checkAuth = () => async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const role = "OWNER";
         const accessToken = req.headers.authorization || req.cookies.accessToken;
 
         if (!accessToken) {
