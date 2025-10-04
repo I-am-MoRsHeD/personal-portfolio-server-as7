@@ -8,10 +8,14 @@ import { createBlogZodSchema } from "./blog.validation";
 
 const router = Router();
 
+router.get('/', BlogController.getAllBlogs);
+router.get('/:blogId', BlogController.getSingleBlog);
+
 router.post('/create',
     checkAuth(),
     multerUpload.single("file"),
     validateSchema(createBlogZodSchema),
     BlogController.createBlog);
+
 
 export const blogRouter = router;

@@ -25,6 +25,59 @@ const createBlog = async (payload: Prisma.BlogCreateInput, decodedUser: JwtPaylo
     return createBlog;
 };
 
+const getAllBlogs = async () => {
+    const allBlogs = await prisma.blog.findMany({
+        include: {
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    role: true
+                }
+            }
+        },
+        orderBy: {
+            createdAt: 'desc'
+        }
+    });
+
+    return allBlogs;
+};
+
+const getSingleBlog = async (id: number) => {
+
+    return await prisma.$transaction(async (tx) => {
+        await tx.blog.update({
+            where: {
+                id
+            },
+            data: {
+                views: {
+                    increment: 1
+                }
+            }
+        })
+        return await tx.blog.findUnique({
+            where: {
+                id
+            },
+            include: {
+                author: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        role: true
+                    }
+                }
+            }
+        });
+    })
+};
+
 export const BlogServices = {
-    createBlog
+    createBlog,
+    getAllBlogs,
+    getSingleBlog
 };
