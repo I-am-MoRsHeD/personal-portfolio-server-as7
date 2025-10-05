@@ -13,7 +13,7 @@ const createProject = async (payload: Prisma.ProjectCreateInput, decodedUser: Jw
     });
 
     if (!isUserExist) {
-        throw new AppError(400, "User not found!")
+        throw new AppError(404, "User not found!")
     };
 
     const createProject = await prisma.project.create({
@@ -40,7 +40,7 @@ const updateProject = async (id: string, payload: Prisma.BlogUpdateInput) => {
         }
     });
     if (!existingProject) {
-        throw new AppError(400, 'Project not found!!!')
+        throw new AppError(404, 'Project not found!!!')
     };
 
     const updatedProject = await prisma.project.update({
@@ -60,7 +60,7 @@ const deleteProject = async (id: string) => {
         }
     });
     if (!isProjectExist) {
-        throw new AppError(400, "Project not found!!")
+        throw new AppError(404, "Project not found!!")
     }
 
     const deleteProject = await prisma.project.delete({

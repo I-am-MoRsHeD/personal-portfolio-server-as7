@@ -1,32 +1,31 @@
-import { JwtPayload } from "jsonwebtoken";
-import { prisma } from "../../config/db";
-import AppError from "../../errorHelpers/AppError";
-import { Blog, Prisma } from "../../../generated/prisma";
-
-
-const createBlog = async (payload: Prisma.BlogCreateInput, decodedUser: JwtPayload): Promise<Blog> => {
-    const isUserExist = await prisma.user.findUnique({
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BlogServices = void 0;
+const db_1 = require("../../config/db");
+const AppError_1 = __importDefault(require("../../errorHelpers/AppError"));
+const createBlog = async (payload, decodedUser) => {
+    const isUserExist = await db_1.prisma.user.findUnique({
         where: {
             email: decodedUser.email
         }
     });
-
     if (!isUserExist) {
-        throw new AppError(404, "User not found!")
-    };
-
-    const createBlog = await prisma.blog.create({
+        throw new AppError_1.default(404, "User not found!");
+    }
+    ;
+    const createBlog = await db_1.prisma.blog.create({
         data: payload,
         include: {
             author: {}
         }
     });
-
     return createBlog;
 };
-
 const getAllBlogs = async () => {
-    const allBlogs = await prisma.blog.findMany({
+    const allBlogs = await db_1.prisma.blog.findMany({
         include: {
             author: {
                 select: {
@@ -41,20 +40,18 @@ const getAllBlogs = async () => {
             createdAt: 'desc'
         }
     });
-
     return allBlogs;
 };
-
-const getSingleBlog = async (id: number) => {
-    const isBlogExist = await prisma.blog.findUnique({
+const getSingleBlog = async (id) => {
+    const isBlogExist = await db_1.prisma.blog.findUnique({
         where: {
             id
         }
     });
     if (!isBlogExist) {
-        throw new AppError(404, "Blog not found!!")
+        throw new AppError_1.default(404, "Blog not found!!");
     }
-    return await prisma.$transaction(async (tx) => {
+    return await db_1.prisma.$transaction(async (tx) => {
         await tx.blog.update({
             where: {
                 id
@@ -64,7 +61,7 @@ const getSingleBlog = async (id: number) => {
                     increment: 1
                 }
             }
-        })
+        });
         return await tx.blog.findUnique({
             where: {
                 id
@@ -80,52 +77,47 @@ const getSingleBlog = async (id: number) => {
                 }
             }
         });
-    })
+    });
 };
-
-const updateBlog = async (id: number, payload: Prisma.BlogUpdateInput) => {
-    const existingBlog = await prisma.blog.findUnique({
+const updateBlog = async (id, payload) => {
+    const existingBlog = await db_1.prisma.blog.findUnique({
         where: {
             id
         }
     });
     if (!existingBlog) {
-        throw new AppError(404, 'Blog not found!!!')
-    };
-
-    const updatedBlog = await prisma.blog.update({
+        throw new AppError_1.default(404, 'Blog not found!!!');
+    }
+    ;
+    const updatedBlog = await db_1.prisma.blog.update({
         where: {
             id
         },
         data: { ...payload }
     });
-
-    return updatedBlog
+    return updatedBlog;
 };
-
-const deleteBlog = async (id: number) => {
-    const isBlogExist = await prisma.blog.findUnique({
+const deleteBlog = async (id) => {
+    const isBlogExist = await db_1.prisma.blog.findUnique({
         where: {
             id
         }
     });
     if (!isBlogExist) {
-        throw new AppError(404, "Blog not found!!")
+        throw new AppError_1.default(404, "Blog not found!!");
     }
-
-    const deleteBlog = await prisma.blog.delete({
+    const deleteBlog = await db_1.prisma.blog.delete({
         where: {
             id
         }
     });
-
     return deleteBlog;
-}
-
-export const BlogServices = {
+};
+exports.BlogServices = {
     createBlog,
     getAllBlogs,
     getSingleBlog,
     updateBlog,
     deleteBlog
 };
+//# sourceMappingURL=blog.services.js.map
