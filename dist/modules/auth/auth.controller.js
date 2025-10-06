@@ -15,6 +15,17 @@ const userLogin = (0, catchAsync_1.catchAsync)(async (req, res, next) => {
         data: result
     });
 });
+const getMe = (0, catchAsync_1.catchAsync)(async (req, res, next) => {
+    const user = req.user;
+    console.log('controller', user);
+    const result = await auth_services_1.AuthServices.getMe(user);
+    (0, seedResponse_1.sendResponse)(res, {
+        statusCode: 200,
+        success: true,
+        message: "User retrieved successfully",
+        data: result
+    });
+});
 const logout = (0, catchAsync_1.catchAsync)(async (req, res, next) => {
     res.clearCookie('accessToken', {
         httpOnly: true,
@@ -35,6 +46,7 @@ const logout = (0, catchAsync_1.catchAsync)(async (req, res, next) => {
 });
 exports.AuthController = {
     userLogin,
-    logout
+    logout,
+    getMe
 };
 //# sourceMappingURL=auth.controller.js.map

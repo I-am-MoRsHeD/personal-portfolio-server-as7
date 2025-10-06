@@ -1,3 +1,4 @@
+import { JwtPayload } from "jsonwebtoken";
 export declare const AuthServices: {
     userLogin: (payload: any) => Promise<{
         accessToken: string;
@@ -10,6 +11,15 @@ export declare const AuthServices: {
             createdAt: Date;
             updateAt: Date;
         };
+    }>;
+    getMe: (decodedUser: JwtPayload) => Promise<{
+        name: string;
+        id: number;
+        email: string;
+        password: string;
+        role: string;
+        createdAt: Date;
+        updateAt: Date;
     }>;
 };
 //# sourceMappingURL=auth.services.d.ts.map

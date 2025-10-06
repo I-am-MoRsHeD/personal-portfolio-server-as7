@@ -32,7 +32,21 @@ const userLogin = async (payload) => {
         user: rest
     };
 };
+const getMe = async (decodedUser) => {
+    const isUserExist = await db_1.prisma.user.findUnique({
+        where: {
+            email: decodedUser?.email
+        }
+    });
+    console.log(isUserExist);
+    if (!isUserExist) {
+        throw new AppError_1.default(400, 'User does not exist');
+    }
+    ;
+    return isUserExist;
+};
 exports.AuthServices = {
-    userLogin
+    userLogin,
+    getMe
 };
 //# sourceMappingURL=auth.services.js.map

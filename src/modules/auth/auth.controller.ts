@@ -3,6 +3,8 @@ import { AuthServices } from "./auth.services";
 import { sendResponse } from "../../utils/seedResponse";
 import { setCookies } from "../../utils/setCookies";
 import { catchAsync } from "../../utils/catchAsync";
+import { JwtPayload } from "jsonwebtoken";
+import { cookieOptions } from "../../utils/cookieOptions";
 
 
 
@@ -18,17 +20,22 @@ const userLogin = catchAsync(async (req: Request, res: Response, next: NextFunct
     })
 });
 
+const getMe = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user as JwtPayload;
+    const result = await AuthServices.getMe(user);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "User retrieved successfully",
+        data: result
+    })
+});
+
 const logout = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    res.clearCookie('accessToken', {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none'
-    });
-    res.clearCookie('refreshToken', {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none'
-    });
+    res.clearCookie('accessToken', cookieOptions);
+    res.clearCookie('refreshToken', cookieOptions);
+
     sendResponse(res, {
         statusCode: 200,
         success: true,
@@ -39,5 +46,6 @@ const logout = catchAsync(async (req: Request, res: Response, next: NextFunction
 
 export const AuthController = {
     userLogin,
-    logout
+    logout,
+    getMe
 }

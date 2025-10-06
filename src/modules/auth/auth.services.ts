@@ -2,6 +2,7 @@ import { prisma } from "../../config/db";
 import AppError from "../../errorHelpers/AppError";
 import bcrypt from 'bcryptjs'
 import { createTokens } from "../../utils/userTokens";
+import { JwtPayload } from "jsonwebtoken";
 
 
 const userLogin = async (payload: any) => {
@@ -34,7 +35,21 @@ const userLogin = async (payload: any) => {
     };
 };
 
+const getMe = async (decodedUser: JwtPayload) => {
+    const isUserExist = await prisma.user.findUnique({
+        where: {
+            email: decodedUser?.email
+        }
+    });
+
+    if (!isUserExist) {
+        throw new AppError(400, 'User does not exist');
+    };
+
+    return isUserExist;
+}
 
 export const AuthServices = {
-    userLogin
+    userLogin,
+    getMe
 }
