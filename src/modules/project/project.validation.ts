@@ -3,8 +3,8 @@ import z from "zod";
 export const createProjectZodSchema = z.object({
     title: z
         .string()
-        .min(1, { message: "Title must be at least 1 characters long." }),
-    description: z.string().min(1, "Description is required."),
+        .min(2, { message: "Title must be at least 2 characters long." }),
+    description: z.string().min(10, "Description is required."),
     projectLink: z.url("Must be a valid project URL."),
     liveLink: z.url("Must be a valid live site URL."),
     features: z.array(z.string().min(1, "Feature cannot be empty")),

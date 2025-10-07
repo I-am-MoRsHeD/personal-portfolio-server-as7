@@ -4,7 +4,6 @@ import { ProjectController } from "./project.controller";
 import { multerUpload } from "../../config/multer.config";
 import { validateSchema } from "../../middleware/validateSchema";
 import { createProjectZodSchema, updateProjectZodSchema } from "./project.validation";
-import { imageValidation } from "../../middleware/imageValidation";
 
 
 const router = Router();
@@ -13,7 +12,6 @@ router.get('/', ProjectController.getAllProjects);
 
 router.post('/create',
     checkAuth(),
-    imageValidation(),
     multerUpload.single('file'),
     validateSchema(createProjectZodSchema),
     ProjectController.createProject);

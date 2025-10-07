@@ -4,8 +4,8 @@ import z from "zod";
 export const createBlogZodSchema = z.object({
     title: z
         .string()
-        .min(1, { message: "Title must be at least 1 characters long." }),
-    content: z.string(),
+        .min(2, { message: "Title must be at least 2 characters long." }),
+    content: z.string().min(10, "Content is required"),
     thumbnail: z.string().optional(),
 });
 
@@ -13,7 +13,7 @@ export const createBlogZodSchema = z.object({
 export const updateBlogZodSchema = z.object({
     title: z
         .string()
-        .min(1, { message: "Title must be at least 1 characters long." }).optional(),
-    content: z.string().optional(),
+        .min(2, { message: "Title must be at least 2 characters long." }).optional(),
+    content: z.string().min(10, "Content is required").optional(),
     thumbnail: z.string().optional(),
 });

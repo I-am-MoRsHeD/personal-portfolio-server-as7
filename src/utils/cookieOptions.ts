@@ -3,5 +3,6 @@
 export const cookieOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: 'none' as const,
+    sameSite: 'none',
+    // sameSite: 'none' as const,
 };

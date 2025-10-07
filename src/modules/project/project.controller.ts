@@ -4,10 +4,14 @@ import { catchAsync } from "../../utils/catchAsync";
 import { Prisma } from "../../../generated/prisma";
 import { ProjectServices } from "./project.service";
 import { sendResponse } from "../../utils/seedResponse";
+import AppError from "../../errorHelpers/AppError";
 
 
 const createProject = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const decodedToken = req.user as JwtPayload;
+    if (!req.file?.path) {
+        throw new AppError(404, 'Thumbnail is required!')
+    };
     const payload: Prisma.ProjectCreateInput = {
         ...req.body,
         thumbnail: req.file?.path
