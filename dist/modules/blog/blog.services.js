@@ -46,6 +46,9 @@ const getSingleBlog = async (id) => {
     const isBlogExist = await db_1.prisma.blog.findUnique({
         where: {
             id
+        },
+        include: {
+            author: {}
         }
     });
     if (!isBlogExist) {

@@ -1,11 +1,19 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjectController = void 0;
 const catchAsync_1 = require("../../utils/catchAsync");
 const project_service_1 = require("./project.service");
 const seedResponse_1 = require("../../utils/seedResponse");
+const AppError_1 = __importDefault(require("../../errorHelpers/AppError"));
 const createProject = (0, catchAsync_1.catchAsync)(async (req, res, next) => {
     const decodedToken = req.user;
+    if (!req.file?.path) {
+        throw new AppError_1.default(404, 'Thumbnail is required!');
+    }
+    ;
     const payload = {
         ...req.body,
         thumbnail: req.file?.path

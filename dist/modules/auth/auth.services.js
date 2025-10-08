@@ -38,7 +38,6 @@ const getMe = async (decodedUser) => {
             email: decodedUser?.email
         }
     });
-    console.log(isUserExist);
     if (!isUserExist) {
         throw new AppError_1.default(400, 'User does not exist');
     }

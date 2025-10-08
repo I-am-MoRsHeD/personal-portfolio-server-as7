@@ -8,8 +8,8 @@ const zod_1 = __importDefault(require("zod"));
 exports.createProjectZodSchema = zod_1.default.object({
     title: zod_1.default
         .string()
-        .min(1, { message: "Title must be at least 1 characters long." }),
-    description: zod_1.default.string().min(1, "Description is required."),
+        .min(2, { message: "Title must be at least 2 characters long." }),
+    description: zod_1.default.string().min(10, "Description is required."),
     projectLink: zod_1.default.url("Must be a valid project URL."),
     liveLink: zod_1.default.url("Must be a valid live site URL."),
     features: zod_1.default.array(zod_1.default.string().min(1, "Feature cannot be empty")),
