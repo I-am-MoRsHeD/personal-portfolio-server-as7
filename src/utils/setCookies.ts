@@ -8,9 +8,19 @@ interface AuthTokens {
 
 export const setCookies = (res: Response, tokenInfo: AuthTokens) => {
     if (tokenInfo.accessToken) {
-        res.cookie('accessToken', tokenInfo.accessToken, cookieOptions);
+        res.cookie('accessToken', tokenInfo.accessToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            path: '/'
+        });
     };
     if (tokenInfo.refreshToken) {
-        res.cookie('refreshToken', tokenInfo.refreshToken, cookieOptions);
+        res.cookie('refreshToken', tokenInfo.refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            path: '/'
+        });
     }
 }
