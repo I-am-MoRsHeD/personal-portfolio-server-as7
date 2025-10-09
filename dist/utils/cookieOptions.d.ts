@@ -1,7 +1,7 @@
 export declare const cookieOptions: {
     httpOnly: boolean;
     secure: boolean;
-    sameSite: "none";
+    sameSite: string;
     path: string;
 };
 //# sourceMappingURL=cookieOptions.d.ts.map

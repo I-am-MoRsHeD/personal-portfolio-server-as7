@@ -5,7 +5,6 @@ const auth_services_1 = require("./auth.services");
 const seedResponse_1 = require("../../utils/seedResponse");
 const setCookies_1 = require("../../utils/setCookies");
 const catchAsync_1 = require("../../utils/catchAsync");
-const cookieOptions_1 = require("../../utils/cookieOptions");
 const userLogin = (0, catchAsync_1.catchAsync)(async (req, res, next) => {
     const result = await auth_services_1.AuthServices.userLogin(req.body);
     (0, setCookies_1.setCookies)(res, result);
@@ -27,8 +26,18 @@ const getMe = (0, catchAsync_1.catchAsync)(async (req, res, next) => {
     });
 });
 const logout = (0, catchAsync_1.catchAsync)(async (req, res, next) => {
-    res.clearCookie('accessToken', cookieOptions_1.cookieOptions);
-    res.clearCookie('refreshToken', cookieOptions_1.cookieOptions);
+    res.clearCookie('accessToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        path: '/'
+    });
+    res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        path: '/'
+    });
     (0, seedResponse_1.sendResponse)(res, {
         statusCode: 200,
         success: true,
